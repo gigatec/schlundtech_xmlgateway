@@ -9,13 +9,14 @@ class SchlundtechXmlGateway
         @in_english = english
     end
 
-
     def update_dyndns(domain, nameserver)
-        doc = create_body(code = 202) 
-        zone = Nokogiri::XML::Node.new("zone", doc)
-        zone.name = name
-        zone.system_ns  = nameserver
-        #doc.xpath("request/task").add_next_sibling(zone)
+        builder = create_body(code = 202) 
+        Nokogiri::XML::Builder.with(builder.doc.xpath("//request/task").first) do |xml|
+            xml.zone {
+                xml.name domain
+                xml.system_ns nameserver
+            }
+        end
     end
 
 
