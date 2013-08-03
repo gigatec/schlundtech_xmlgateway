@@ -1,2 +1,2 @@
-schlundtech-gem
+Ruby gem for SchlundTech DNS Gateway
 ===============
