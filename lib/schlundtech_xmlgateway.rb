@@ -2,9 +2,10 @@ require 'nokogiri'
 
 class SchlundtechXmlGateway
 
-    def initialize(user, password, english = true)
+    def initialize(user, password, context, english = true)
         @user = user
         @password = password
+        @context = context
         
         @in_english = english
     end
@@ -19,14 +20,13 @@ class SchlundtechXmlGateway
         end
     end
 
-
     def create_body(code = 815)
         builder = Nokogiri::XML::Builder.new(:encoding => "utf-8") do |xml|
             xml.request {
                 xml.auth {
                     xml.user @user
                     xml.password @password
-                    xml.context_ 10 
+                    xml.context @context
                 }
                 xml.language @in_english ? "en" : "de"
                 xml.task {
