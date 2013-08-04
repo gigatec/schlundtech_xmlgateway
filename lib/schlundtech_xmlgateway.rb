@@ -11,13 +11,22 @@ class SchlundtechXmlGateway
     end
 
     def update_dyndns(domain, nameserver)
-        builder = create_body(code = 202) 
+        builder = create_body(code = 202)
         Nokogiri::XML::Builder.with(builder.doc.xpath("//request/task").first) do |xml|
             xml.zone {
                 xml.name domain
                 xml.system_ns nameserver
             }
         end
+    end
+
+    def zone_inquire(domain, nameserver)
+        builder = create_body(code = 0205)
+        Nokogiri::XML::Builder.with(builder.doc.xpath("//request/task").first) do |xml|
+            xml.zone {
+                xml.name domain
+                xml.system_ns nameserver
+            }
     end
 
     def create_body(code = 815)
