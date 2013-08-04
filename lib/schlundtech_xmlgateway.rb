@@ -11,7 +11,7 @@ class SchlundtechXmlGateway
     end
 
     def update_dyndns(domain, nameserver)
-        builder = create_body(code = 202)
+        builder = create_body(code = "0202")
         Nokogiri::XML::Builder.with(builder.doc.xpath("//request/task").first) do |xml|
             xml.zone {
                 xml.name domain
@@ -21,7 +21,7 @@ class SchlundtechXmlGateway
     end
 
     def zone_inquire(domain, nameserver)
-        builder = create_body(code = 0205)
+        builder = create_body(code = "0205")
         Nokogiri::XML::Builder.with(builder.doc.xpath("//request/task").first) do |xml|
             xml.zone {
                 xml.name domain
@@ -29,7 +29,7 @@ class SchlundtechXmlGateway
             }
     end
 
-    def create_body(code = 815)
+    def create_body(code = "815")
         builder = Nokogiri::XML::Builder.new(:encoding => "utf-8") do |xml|
             xml.request {
                 xml.auth {
@@ -39,7 +39,7 @@ class SchlundtechXmlGateway
                 }
                 xml.language @in_english ? "en" : "de"
                 xml.task {
-                    xml.code "%04d" % code
+                    xml.code code
                 }
 
             }
