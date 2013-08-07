@@ -39,13 +39,12 @@ class SchlundtechXmlGateway
                 xml.auth {
                     xml.user @user
                     xml.password @password
-                    xml.context @context
+                    xml.context_ "%d" % @context
                 }
                 xml.language @in_english ? "en" : "de"
                 xml.task {
                     xml.code code
                 }
-
             }
         end
     end
