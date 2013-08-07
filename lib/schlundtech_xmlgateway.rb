@@ -21,6 +21,8 @@ class SchlundtechXmlGateway
     def zone_update(domain, zone)
         builder = create_body(code = "0202")
         builder.doc.xpath("//request/task").first.add_child(zone)
+
+        send_request(builder)
     end
 
     def zone_inquire(domain, nameserver)
@@ -31,6 +33,8 @@ class SchlundtechXmlGateway
                 xml.system_ns nameserver
             }
         end
+
+        send_request(builder)
     end
 
     def create_body(code = "815")
@@ -74,5 +78,6 @@ end
 
 if __FILE__ == $0
     foo = SchlundtechXmlGateway.new("max.muster", "i-like-little-children4breakfa$t", 18)
-    puts foo.zone_inquire("example.com", "ns1.example.com").to_xml
+    response = foo.zone_inquire("example.com", "ns1.example.com")
+    puts response.code + " " + response.msg
 end
