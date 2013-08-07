@@ -74,6 +74,6 @@ end
 
 
 if __FILE__ == $0
-    foo = SchlundtechXmlGateway.new("max.muster", "i-like-little-children4breakfa$t")
+    foo = SchlundtechXmlGateway.new("max.muster", "i-like-little-children4breakfa$t", 18)
     puts foo.zone_inquire("example.com", "ns1.example.com").to_xml
 end
