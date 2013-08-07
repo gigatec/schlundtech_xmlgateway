@@ -1,6 +1,10 @@
 require 'nokogiri'
+require 'net/https'
+require "uri"
 
 class SchlundtechXmlGateway
+
+    GATEWAY = "https://gateway.schlundtech.de"
 
     def initialize(user, password, context, english = true)
         @user = user
@@ -40,6 +44,31 @@ class SchlundtechXmlGateway
 
             }
         end
+    end
+
+    def send_request(request)
+        uri = URI.parse(SchlundtechXmlGateway::GATEWAY)
+
+        # Token used to terminate the file in the post body. Make sure it is not
+        # present in the file you're uploading.
+        BOUNDARY = "AaB03x"
+
+        post_body = []
+        post_body < < "--#{BOUNDARY}rn"
+        post_body < < "Content-Type: text/plainrn"
+        post_body < < "rn"
+        post_body < < request.to_xml
+        post_body < < "rn--#{BOUNDARY}--rn"
+
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE # BAD!
+
+        http_request = Net::HTTP::Post.new(uri.request_uri)
+        http_request.body = post_body.join
+        http_request["Content-Type"] = "multipart/form-data, boundary=#{BOUNDARY}"
+
+        response = http.request(http_request)
     end
 end
 
