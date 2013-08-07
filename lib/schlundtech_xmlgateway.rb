@@ -10,14 +10,9 @@ class SchlundtechXmlGateway
         @in_english = english
     end
 
-    def update_dyndns(domain, nameserver)
+    def zone_update(domain, zone)
         builder = create_body(code = "0202")
-        Nokogiri::XML::Builder.with(builder.doc.xpath("//request/task").first) do |xml|
-            xml.zone {
-                xml.name domain
-                xml.system_ns nameserver
-            }
-        end
+        builder.doc.xpath("//request/task").first.add_child(zone)
     end
 
     def zone_inquire(domain, nameserver)
@@ -27,6 +22,7 @@ class SchlundtechXmlGateway
                 xml.name domain
                 xml.system_ns nameserver
             }
+        end
     end
 
     def create_body(code = "815")
@@ -50,5 +46,5 @@ end
 
 if __FILE__ == $0
     foo = SchlundtechXmlGateway.new("max.muster", "i-like-little-children4breakfa$t")
-    puts foo.update_dyndns("example.com", "ns1.example.com").to_xml
+    puts foo.zone_inquire("example.com", "ns1.example.com").to_xml
 end
