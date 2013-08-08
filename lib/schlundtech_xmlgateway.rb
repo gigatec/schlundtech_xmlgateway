@@ -2,6 +2,8 @@ require 'nokogiri'
 require 'net/https'
 require "uri"
 
+require 'schlundtech_xmlgateway/zone'
+
 class SchlundtechXmlGateway
 
     GATEWAY = "https://gateway.schlundtech.de"
@@ -50,8 +52,6 @@ class SchlundtechXmlGateway
     end
 
     def send_request(request)
-        puts request.to_xml
-
         uri = URI.parse(SchlundtechXmlGateway::GATEWAY)
 
         http = Net::HTTP.new(uri.host, uri.port)
@@ -71,4 +71,5 @@ if __FILE__ == $0
     foo = SchlundtechXmlGateway.new("max.muster", "i-like-little-children4breakfa$t", 18)
     response = foo.zone_inquire("example.com", "ns1.example.com")
     puts response.code + " " + response.msg
+    puts response.body
 end

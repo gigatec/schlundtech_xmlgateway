@@ -5,6 +5,7 @@ Gem::Specification.new do |s|
   s.summary     = "SchlundTech XML Gateway"
   s.description = "A gem to access SchlundTech's XML Gateway"
   s.authors     = ["Christian Köpp", "Martin Lowinski"]
-  s.files       = ["lib/schlundtech_xmlgateway.rb"]
+  s.files       = ["lib/schlundtech_xmlgateway.rb",
+    "lib/schlundtech_xmlgateway/zone.rb"]
   s.homepage    = 'https://github.com/martinlowinski/schlundtech_xmlgateway'
 end
