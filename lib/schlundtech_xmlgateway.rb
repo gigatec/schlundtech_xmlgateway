@@ -16,6 +16,22 @@ class SchlundtechXmlGateway
         @in_english = english
     end
 
+    # Show the data of a registered domain
+    #
+    # domain: top-level
+    # details: comma-separated [ownerc, adminc, techc, zonec]
+    def domain_inquire(domain, details = nil)
+        builder = create_body(code = "0105")
+        Nokogiri::XML::Builder.with(builder.doc.xpath("//request/task").first) do |xml|
+            xml.domain {
+                xml.name domain
+            }
+            xml.show_handle_details details
+        end
+
+        send_request(builder)
+    end
+
     def zone_update(domain, zone)
         builder = create_body(code = "0202")
         builder.doc.xpath("//request/task").first.add_child(zone)
